@@ -1,25 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+
+import Login from './components/Login';
+import FriendsList from './components/FriendsList';
+import PrivateRoute from './components/PrivateRoute';
+
+import axiosWithAuth from './utils/axiosWithAuth';
+
+const initialState = {
+  isAuth: false
+}
 
 function App() {
+  
+  const [state, setState] = useState(initialState);
+
+  const logout = () => {
+
+    console.log('logging out');
+
+    axiosWithAuth()
+      .post('/api/logout')
+
+      .then(res => {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        setState({
+          isAuth: false
+        })
+      })
+
+      .catch(err => {
+        console.log(err);
+      })
+  };
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <ul>
+          <li>
+            {!state.isAuth ? <Link to='/login'>Login</Link> : <div></div>}
+          </li>
+
+          <li>
+            {state.isAuth ? <Link to='/friends'>Friends</Link> : <div></div>}
+          </li>
+
+          <li>
+            {state.isAuth ? <Link onClick={logout}>Logout</Link> : <div></div>}
+          </li>
+        </ul>
+
+        <Switch>
+          <PrivateRoute exact path='/friends' component={FriendsList} />
+          <Route path='/login' >
+            <Login setAuth={setState} />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
