@@ -28,7 +28,7 @@ function Login(props) {
             .post('/api/login', state.credentials)
             .then(res => {
                 console.log(res);
-                // localStorage.setItem('token', res.data.payload);
+                localStorage.setItem('token', res.data.payload);
                 props.setAuth({
                     isAuth: true
                 })

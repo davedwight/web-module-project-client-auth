@@ -48,12 +48,14 @@ function App() {
           </li>
 
           <li>
-            {state.isAuth ? <Link onClick={logout}>Logout</Link> : <div></div>}
+            {state.isAuth ? <Link to='/login' onClick={logout}>Logout</Link> : <div></div>}
           </li>
         </ul>
 
         <Switch>
-          <PrivateRoute exact path='/friends' component={FriendsList} />
+          <PrivateRoute exact path='/friends'>
+            <FriendsList setAuth={setState} />
+          </PrivateRoute>
           <Route path='/login' >
             <Login setAuth={setState} />
           </Route>

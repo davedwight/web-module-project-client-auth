@@ -1,11 +1,10 @@
-import { test } from 'media-typer';
 import React, { useState } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
 
 const initialValue = {
-    name: 'Dave',
-    age: 27,
-    email: 'dave@friends.com'
+    name: '',
+    age: '',
+    email: ''
 }
 
 function AddFriend() {
@@ -26,7 +25,7 @@ function AddFriend() {
             .then(res => {
                 console.log(res);
                 // localStorage.setItem('token', res.data.payload);
-                window.location.href = '/friends';
+                // window.location.href = '/friends';
             })
             .catch(err => {
                 console.log(err);
@@ -35,6 +34,7 @@ function AddFriend() {
 
     return (
         <div>
+            <h2>Add Friend</h2>
             <form onSubmit={handleSubmit}>
                 <input
                     type='text'
