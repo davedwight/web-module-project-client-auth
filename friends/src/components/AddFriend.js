@@ -7,7 +7,7 @@ const initialValue = {
     email: ''
 }
 
-function AddFriend() {
+function AddFriend(props) {
     
     const [state, setState] = useState(initialValue);
 
@@ -24,6 +24,9 @@ function AddFriend() {
             .post('/api/friends', state)
             .then(res => {
                 console.log(res);
+                props.setData({
+                    friends: res.data
+                });
                 // localStorage.setItem('token', res.data.payload);
                 // window.location.href = '/friends';
             })

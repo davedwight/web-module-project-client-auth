@@ -12,9 +12,12 @@ const initialValue = {
 
 function FriendsList(props) {
 
+    console.log("props: ", props);
+
     const [state, setState] = useState(initialValue);
 
     useEffect(() => {
+        console.log('friends list mounted');
         props.setAuth({
             isAuth: true
         })
@@ -36,7 +39,7 @@ function FriendsList(props) {
 
     return(
         <div>
-            <AddFriend />
+            <AddFriend setData={setState} />
             {
                 state.friends.map(friend => (
                     <Friend key={friend.id} info={friend}/>
